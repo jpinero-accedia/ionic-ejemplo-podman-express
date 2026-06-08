@@ -4,7 +4,7 @@
     "type": "module",
     "scripts": {
         "start": "node --watch ./src/server.js",
-        "serve": "node ./src/server.js"
+        "serve": "node         ./src/server.js"
     },
     "dependencies": {
         "ejs": "^6.0.0",
