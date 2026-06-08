@@ -13,6 +13,7 @@ services:
       - express_yarn_cache:/app/.yarn
     ports:
       - "3000:${PORT}"
+    command: /bin/zsh
 
 volumes:
   express_node_modules:

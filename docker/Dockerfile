@@ -28,9 +28,7 @@ FROM deps AS dev
 
 EXPOSE 3000
 
-#CMD ["yarn", "start"]
-
-CMD ["/bin/zsh"]
+CMD ["yarn", "start"]
 
 # ---------- PRODUCCIÓN ----------
 
