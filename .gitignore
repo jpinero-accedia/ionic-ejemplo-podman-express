@@ -21,7 +21,7 @@ $RECYCLE.BIN/
 # ============================
 # VSCode
 # ============================
- .vscode/*
+.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -41,7 +41,8 @@ yarn.lock
 .pnp.js
 
 # Environment
- .env.*
+.env
+.env.*
 !.env.example
 
 # Build

@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: ./app
+      dockerfile: ../Dockerfile
+      target: prod
+    container_name: express_prod_app
+    env_file:
+      - ./.env.prod
+    ports:
+      - "3000:${PORT:-3000}"
