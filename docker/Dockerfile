@@ -37,17 +37,16 @@ EXPOSE 3000
 SHELL ["/bin/zsh", "-c"]
 
 # Forzamos la ruta absoluta interna para evitar perdidas del --watch
-#CMD ["node", "--watch", "./src/server.js"]
 CMD ["yarn", "start"]
 
 # ---------- PRODUCCIÓN ----------
 
 # Muy parecido a desarrollo, la principal diferencia es que no usamos watch porque en principio no
-#    vamos a estsar cambiando el cofigon en produccion.
+#    vamos a estar cambiando el config en produccion.
 
 FROM base AS prod
 
-ENV NODE_ENV=production
+# ENV NODE_ENV=production
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/.yarn ./.yarn
@@ -55,11 +54,10 @@ COPY --from=deps /app/.yarnrc.yml ./
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 80
 
 # Shell por defecto
 SHELL ["/bin/zsh", "-c"]
 
 # CMD por defecto
-# CMD ["node", "/app/src/server.js"]
 CMD ["yarn", "serve"]

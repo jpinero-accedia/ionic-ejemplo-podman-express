@@ -5,7 +5,7 @@ const router = Router();
 router.get('/:receta', (req,res) => {
     res.json({
         id: req.params.receta,
-        name: 'Tiramisu'
+        names: ['Tiramisu', '3 Chocolates' , 'Natillas']
     });
 } );
 

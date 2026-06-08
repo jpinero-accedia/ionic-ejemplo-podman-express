@@ -18,7 +18,7 @@ yarn-error.log*
 # Environment
 # ============================
 .env
-.env.*.local
+.env.*
 
 # ============================
 # Build / Cache
@@ -48,6 +48,9 @@ docker-data/
 podman-data/
 .docker/
 podman/
+Dockerfile
+compose.yml
+compose.*.yml
 
 # ============================
 # Misc
@@ -58,3 +61,9 @@ podman/
 *.tmp
 
 
+
+# ============================
+# GIT
+# ============================
+.git/
+.gitignore
