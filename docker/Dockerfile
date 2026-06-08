@@ -23,9 +23,6 @@ COPY ./src ./src
 ENV YARN_ENABLE_TELEMETRY=0
 RUN yarn add
 
-# Shell por defecto
-SHELL ["/bin/sh", "-c"]
-
 # ---------- DESARROLLO ----------
 FROM deps AS dev
 
