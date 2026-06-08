@@ -29,14 +29,9 @@ SHELL ["/bin/sh", "-c"]
 # ---------- DESARROLLO ----------
 FROM deps AS dev
 
-# Nos traemos las dependencias y la cionfiguracion de Yarn Berrry desde la etapa "deps"
-## COPY --from=deps /app/node_modules ./node_modules
-## COPY --from=deps /app/.yarn        ./.yarn
-## COPY --from=deps /app/.yarnrc.yml  ./
-
 EXPOSE 3000
 
-CMD ["zsh", "-c"]
+CMD ["yarn", "start"]
 
 # ---------- PRODUCCIÓN ----------
 
@@ -44,10 +39,6 @@ CMD ["zsh", "-c"]
 #    vamos a estsar cambiando el cofigon en produccion.
 
 FROM deps AS prod
-
-## COPY --from=deps /app/node_modules ./node_modules
-## COPY --from=deps /app/.yarn ./.yarn
-## COPY --from=deps /app/.yarnrc.yml ./
 
 EXPOSE 80
 
