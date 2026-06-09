@@ -3,33 +3,27 @@ FROM node:20-alpine AS base
 
 WORKDIR /app
 
-# zsh y bash para entorno interactivo
+# Shells opcionales
 RUN apk add --no-cache zsh bash
 
-# Activar corepack (usa Yarn Berry definido en .yarnrc.yml)
-RUN corepack enable && corepack prepare yarn@stable --activate
+# Habilitar corepack y xnpm
+RUN corepack enable && npm install -g xnpm
 
 # ---------- DEPENDENCIAS ----------
 FROM base AS deps
 
-# Copiar solo lo necesario para instalar dependencias
-COPY ./package.json ./yarn.lock* ./.yarnrc.yml ./
+# Copiar archivos necesarios para instalar dependencias
+COPY package.json package-lock.json .npmrc ./
 
-# Bloqueamos la telemetría y seleccionamos la versión de Yarn
-ENV YARN_ENABLE_TELEMETRY=0
-
-# Instalar dependencias (NO usar "yarn add")
-RUN yarn install
+# Instalar dependencias
+RUN xnpm install
 
 # ---------- DESARROLLO ----------
 FROM deps AS dev
 
-# Copiar el código (en dev se sobrescribe con volumen)
-COPY ./src ./src
-
+# En dev, el código se monta por volumen, no hace falta copiar src
 EXPOSE 3000
-
-CMD ["yarn", "start"]
+CMD ["xnpm", "start"]
 
 # ---------- PRODUCCIÓN ----------
 FROM deps AS prod
@@ -37,6 +31,5 @@ FROM deps AS prod
 # Copiar el código completo
 COPY ./src ./src
 
-EXPOSE 80
-
-CMD ["yarn", "serve"]
+EXPOSE 3000
+CMD ["xnpm", "serve"]
