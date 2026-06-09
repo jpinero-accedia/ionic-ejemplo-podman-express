@@ -1,14 +1,17 @@
-#! /usr/bin/env pwsh
+#!/usr/bin/env pwsh
 #requires -version 5
 
-# vim: ft=powershell: ts=3: sw=3: noet:
-
-# Inicializa rutas BASE y DOCKER
+# ============================
+#  Inicialización de rutas
+# ============================
 function Init-Paths {
-    $script:BASE_FOLDER   = Split-Path -Parent $PSScriptRoot
+    $script:BASE_FOLDER   = $PSScriptRoot
     $script:DOCKER_FOLDER = Join-Path $BASE_FOLDER "docker"
 }
 
+# ============================
+#  Ayuda
+# ============================
 function Show-Help {
 @"
 pdm CMD args
@@ -16,6 +19,9 @@ pdm CMD args
 "@
 }
 
+# ============================
+#  Ejecutor principal
+# ============================
 function Run {
     param(
         [string]$Cmd = "empty",
@@ -43,5 +49,7 @@ function Run {
     }
 }
 
+# ============================
+#  Entrada principal
+# ============================
 Run $args[0] $args[1..($args.Count-1)]
-
