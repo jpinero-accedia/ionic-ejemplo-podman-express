@@ -7,7 +7,7 @@
         "serve": "node         ./src/server.js"
     },
     "dependencies": {
-        "ejs": "^6.0.0",
-        "express": "^5.2.0"
+        "ejs":            "^6.0.0",
+        "express":        "^5.2.0"
     }
 }

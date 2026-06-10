@@ -13,7 +13,7 @@ RUN corepack enable && corepack prepare yarn@stable --activate
 FROM base AS deps
 
 # Copiar solo lo necesario para instalar dependencias
-COPY ./package.json ./yarn.lock* ./.yarnrc.yml ./
+COPY app/package.json app/yarn.lock* app/.yarnrc.yml ./
 
 # Bloqueamos la telemetría y seleccionamos la versión de Yarn
 ENV YARN_ENABLE_TELEMETRY=0
@@ -25,7 +25,7 @@ RUN yarn install
 FROM deps AS dev
 
 # Copiar el código (en dev se sobrescribe con volumen)
-COPY ./src ./src
+COPY app/src ./src
 
 EXPOSE 3000
 
@@ -35,7 +35,7 @@ CMD ["yarn", "start"]
 FROM deps AS prod
 
 # Copiar el código completo
-COPY ./src ./src
+COPY ./app/src ./app/src
 
 EXPOSE 80
 

@@ -8,11 +8,24 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ./app:/app:Z
       - express_node_modules:/app/node_modules
       - express_yarn_cache:/app/.yarn
     ports:
-      - "3000:3000"
+      - "3000:${PORT}"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./app/src
+          target: ./src
+          initial_sync: true
+        - action: rebuild
+          path: ./app/package.json
+          target: ./package.json
+          initial_sync: true
+        - action: sync
+          path: ./app/src/public
+          target: ./src/public
+          initial_sync: true
 
 volumes:
   express_node_modules:
