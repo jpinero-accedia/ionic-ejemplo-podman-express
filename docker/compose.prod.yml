@@ -1,8 +1,8 @@
 services:
   app:
     build:
-      context: ./app
-      dockerfile: ../Dockerfile
+      context: .
+      dockerfile: ./Dockerfile
       target: prod
     container_name: express_prod_app
     env_file:

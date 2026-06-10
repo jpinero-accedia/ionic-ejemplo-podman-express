@@ -3,7 +3,7 @@ FROM node:20-alpine AS base
 
 WORKDIR /app
 
-# zsh para entorno interactivo
+# zsh y bash para entorno interactivo
 RUN apk add --no-cache zsh bash
 
 # Activar corepack (usa Yarn Berry definido en .yarnrc.yml)
@@ -13,51 +13,30 @@ RUN corepack enable && corepack prepare yarn@stable --activate
 FROM base AS deps
 
 # Copiar solo lo necesario para instalar dependencias
-# El * despues de yarn.lock* es por sui el archivo no existe, que no falle
-COPY ./package.json ./yarn.lock* ./.yarnrc.yml ./
+COPY app/package.json app/yarn.lock* app/.yarnrc.yml ./
 
-# Bloqueamos la telemetría y seleccionamos kla versión de Yarn
+# Bloqueamos la telemetría y seleccionamos la versión de Yarn
 ENV YARN_ENABLE_TELEMETRY=0
+
+# Instalar dependencias (NO usar "yarn add")
 RUN yarn install
 
 # ---------- DESARROLLO ----------
-FROM base AS dev
+FROM deps AS dev
 
-# Nos traemos las dependencias y la cionfiguracion de Yarn Berrry desde la etapa "deps"
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/.yarn ./.yarn
-COPY --from=deps /app/.yarnrc.yml ./
-
-# Copiar código (aunque luego se sobrescribe con volumen)
-COPY ./src ./src
+# Copiar el código (en dev se sobrescribe con volumen)
+COPY app/src ./src
 
 EXPOSE 3000
 
-# Shell por defecto
-SHELL ["/bin/zsh", "-c"]
-
-# Forzamos la ruta absoluta interna para evitar perdidas del --watch
 CMD ["yarn", "start"]
 
 # ---------- PRODUCCIÓN ----------
+FROM deps AS prod
 
-# Muy parecido a desarrollo, la principal diferencia es que no usamos watch porque en principio no
-#    vamos a estar cambiando el config en produccion.
-
-FROM base AS prod
-
-# ENV NODE_ENV=production
-
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/.yarn ./.yarn
-COPY --from=deps /app/.yarnrc.yml ./
-
-COPY . .
+# Copiar el código completo
+COPY ./app/src ./app/src
 
 EXPOSE 80
 
-# Shell por defecto
-SHELL ["/bin/zsh", "-c"]
-
-# CMD por defecto
 CMD ["yarn", "serve"]
