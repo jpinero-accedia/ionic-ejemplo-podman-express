@@ -49,6 +49,9 @@ docker-data/
 podman-data/
 .docker/
 podman/
+Dockerfile
+compose.yml
+compose.*.yml
 
 # ============================
 # Misc
