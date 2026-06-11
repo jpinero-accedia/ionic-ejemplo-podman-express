@@ -9,7 +9,7 @@ services:
       - ./.env
     volumes:
       - express_node_modules:/app/node_modules
-      - express_yarn_cache:/app/.yarn
+      #- express_yarn_cache:/app/.yarn
     ports:
       - "${PORT}:3000"
     develop:
@@ -30,5 +30,5 @@ services:
 volumes:
   express_node_modules:
     name: express_dev_node_modules
-  express_yarn_cache:
-    name: express_dev_yarn_cache
+#  express_yarn_cache:
+ #   name: express_dev_yarn_cache
